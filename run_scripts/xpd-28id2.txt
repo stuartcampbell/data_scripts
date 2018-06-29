@@ -1,0 +1,21 @@
+# before beginning:
+# code to run
+git clone https://www.github.com/jrmlhermitte/cantrips
+cd cantrips/
+git checkout origin/get_file_sizes
+cd cantrips/file_system
+
+
+conda activate collection-2018-2.1
+
+# Host name
+HOSTNAME=xf28id2-ws2
+ROOTDIR=/nsls2/xf28id2/
+DETS="pe1_data pe2_data pe3_data"
+
+
+for detname in $DETS
+do
+    python probe_file_sizes.py -r $ROOTDIR$detname -o $HOSTNAME_$detname.dat --start "2015-01-01" --stop "2018-08-01"
+    zip ${HOSTNAME}_file_sizes.zip $HOSTNAME_$detname.dat
+done

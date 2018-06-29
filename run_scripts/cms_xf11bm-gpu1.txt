@@ -1,0 +1,23 @@
+# before beginning:
+# code to run
+git clone https://www.github.com/jrmlhermitte/cantrips
+cd cantrips/
+git checkout origin/get_file_sizes
+cd cantrips/file_system
+
+
+conda activate collection-2018-2.0
+
+# Host name
+HOSTNAME=xf11bm-gpu1
+ROOTDIR=/GPFS/xf11bm/
+DETS="Pilatus2M Pilatus300"
+START_TIME="2015-01-01"
+STOP_TIME="2018-08-01"
+
+
+for detname in $DETS
+do
+    python probe_file_sizes.py -r $ROOTDIR$detname -o $HOSTNAME_${detname/\//_}.dat --start $START_TIME --stop $STOP_TIME
+    zip ${HOSTNAME}_file_sizes.zip $HOSTNAME_${detname/\//_}.dat
+done

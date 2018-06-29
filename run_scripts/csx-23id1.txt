@@ -1,0 +1,18 @@
+# before beginning:
+# code to run
+git clone https://www.github.com/jrmlhermitte/cantrips
+git checkout origin/get_file_sizes
+cd cantrips/cantrips/file_system
+
+# Host name
+HOSTNAME=xf23id-ws3
+ROOTDIR= /GPFS/xf23id/xf23id1/
+DETS="xspress3_data pimte_data fccd_data"
+
+
+for detname in $DETS
+do
+    #python probe_file_sizes.py -r /GPFS/xf23id/xf23id1/$detname -o $HOSTNAME_$detname.dat --start "2015-01-01" --stop "2018-08-01"
+    zip ${HOSTNAME}_file_sizes.zip $HOSTNAME_$detname.dat
+done
+
