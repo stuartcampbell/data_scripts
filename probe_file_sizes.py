@@ -17,10 +17,18 @@ def get_size(start_path = '.'):
 
 
 
-def get_filesize_table(root_dir):
+def get_filesize_table(root_dir, start="2015-01-01", stop="2018-12-31"):
     # start and end this date
-    d1 = date(2015, 1, 1)  # start date
-    d2 = date(2018, 7, 1)  # end date
+    start_tp = [int(i) for i in start.split("-", maxsplit=2)]
+    stop_tp = [int(i) for i in stop.split("-", maxsplit=2)]
+    if len(start_tp) != 3:
+        raise ValueError(f"Error, did not get yyyy-mm-dd. Got: {start_tp}")
+
+    if len(stop_tp) != 3:
+        raise ValueError(f"Error, did not get yyyy-mm-dd. Got: {stop_tp}")
+
+    d1 = date(*start_tp)  # start date
+    d2 = date(*stop_tp)  # end date
     #ROOT = "/home/lhermitte/tmp"
 
     delta = d2 - d1         # timedelta
@@ -40,12 +48,17 @@ if __name__ == "__main__":
         Walks through directories in a yyyy/mm/dd structure and obtains file
         sizes. Saves file size total per day.
     '''
+
     parser = argparse.ArgumentParser(description='Scrape the date directory tree for file sizes.')
     parser.add_argument('-r', '--root', dest='root_dir', type=str,
                     help='The root directory', default='.')
     parser.add_argument('-o', '--output_file', dest='output_file', type=str,
                     help='The root directory', default='dat.txt')
+    parser.add_argument('-t1', '--start', dest='start', type=str,
+                    help='Start time', default='2015-01-01')
+    parser.add_argument('-t2', '--stop', dest='stop', type=str,
+                    help='Start time', default='2018-12-31')
 
     args = parser.parse_args()
-    df = get_filesize_table(args.root_dir)
+    df = get_filesize_table(args.root_dir, start=args.start, stop=args.stop)
     df.to_csv(args.output_file, sep=" ", index=False)
