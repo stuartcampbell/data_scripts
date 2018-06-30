@@ -1,5 +1,6 @@
 # before beginning:
 # code to run
+cd ~lhermitte
 git clone https://www.github.com/jrmlhermitte/data_scripts
 cd data_scripts/
 
