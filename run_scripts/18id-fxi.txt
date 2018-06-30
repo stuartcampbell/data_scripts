@@ -1,0 +1,24 @@
+# before beginning:
+# code to run
+# go to home dir
+cd ~lhermitte
+git clone https://www.github.com/jrmlhermitte/data_scripts
+cd data_scripts/
+
+
+conda activate collection-2018-2.0
+
+# Host name
+HOSTNAME=xf18id-ws1
+ROOTDIR=/NSLS2/xf18id1/DATA/
+DETS="Andor"
+START_TIME="2015-01-01"
+STOP_TIME="2018-08-01"
+
+
+for detname in $DETS
+do
+    echo "python probe_file_sizes.py -r $ROOTDIR$detname -o $HOSTNAME_${detname/\//_}.dat --start $START_TIME --stop $STOP_TIME"
+    python probe_file_sizes.py -r $ROOTDIR$detname -o $HOSTNAME_${detname/\//_}.dat --start $START_TIME --stop $STOP_TIME
+    zip ${HOSTNAME}_file_sizes.zip $HOSTNAME_${detname/\//_}.dat
+done
