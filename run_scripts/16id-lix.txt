@@ -1,0 +1,21 @@
+# before beginning:
+# code to run
+git clone https://www.github.com/jrmlhermitte/data_scripts
+cd data_scripts/
+
+
+conda activate collection-2018-2.0
+
+# Host name
+HOSTNAME=xf16id-ws1
+ROOTDIR=/GPFS/xf12id1/data/
+DETS="1M/images 300KW/images MAXS/images"
+START_TIME="2015-01-01"
+STOP_TIME="2018-08-01"
+
+
+for detname in $DETS
+do
+    python probe_file_sizes.py -r $ROOTDIR$detname -o $HOSTNAME_${detname/\//_}.dat --start $START_TIME --stop $STOP_TIME
+    zip ${HOSTNAME}_file_sizes.zip $HOSTNAME_${detname/\//_}.dat
+done
